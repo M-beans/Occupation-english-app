@@ -172,10 +172,12 @@ export default function Home() {
           <p className="text-gray-600 mb-6">
             1ルーティンが完了しました。お疲れさまでした。
           </p>
-        </div>
 
           <div className="bg-white rounded-2xl p-5 shadow mb-4">
-            <h2 className="font-bold text-blue-600 mb-2">今回のポイント</h2>
+            <h2 className="font-bold text-blue-600 mb-2">
+              今回のポイント
+            </h2>
+
             <ul className="list-disc pl-5 text-gray-700 space-y-2">
               <li>患者に安心感を与える返答ができました。</li>
               <li>短く、やさしい英語で対応できています。</li>
@@ -194,8 +196,7 @@ export default function Home() {
               <p className="text-gray-500 text-sm mt-1">
                 今日、担当しますね。
               </p>
-          </div>
-
+            </div>
             <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-green-500">
               <p className="text-sm font-bold text-green-600 mb-2">
                 別の言い方
@@ -215,6 +216,7 @@ export default function Home() {
           >
             シチュエーション選択に戻る
           </button>
+        </div>
       </main>
     );
   }
