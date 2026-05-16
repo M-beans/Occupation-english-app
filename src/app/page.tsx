@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { scenarios } from "@/data/scenarios";
+import { generateScenario } from "@/lib/ai";
 
 export default function Home() {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
   const [currentNodeId, setCurrentNodeId] = useState<string | null>(null);
   const [isFinished, setIsFinished] = useState(false);
+
+  const [aiScenario, setAiScenario] = useState<any>(null);
 
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [profile, setProfile] = useState({
@@ -46,6 +49,14 @@ export default function Home() {
     setSelectedScenarioId(null);
     setCurrentNodeId(null);
     setIsFinished(false);
+  }
+
+  async function testAiScenario() {
+  const result = await generateScenario();
+
+  setAiScenario(result);
+
+  console.log(result);
   }
 
   function completeSetup() {
@@ -137,6 +148,13 @@ export default function Home() {
             >
               次へ
             </button>
+
+            <button
+              onClick={testAiScenario}
+              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold transition"
+            >
+              AIテスト
+            </button>
           </div>
         </div>
       </main>
@@ -154,6 +172,7 @@ export default function Home() {
           <p className="text-gray-600 mb-6">
             1ルーティンが完了しました。お疲れさまでした。
           </p>
+        </div>
 
           <div className="bg-white rounded-2xl p-5 shadow mb-4">
             <h2 className="font-bold text-blue-600 mb-2">今回のポイント</h2>
@@ -175,7 +194,7 @@ export default function Home() {
               <p className="text-gray-500 text-sm mt-1">
                 今日、担当しますね。
               </p>
-            </div>
+          </div>
 
             <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-green-500">
               <p className="text-sm font-bold text-green-600 mb-2">
@@ -196,7 +215,6 @@ export default function Home() {
           >
             シチュエーション選択に戻る
           </button>
-        </div>
       </main>
     );
   }
