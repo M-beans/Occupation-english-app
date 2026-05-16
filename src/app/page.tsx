@@ -4,9 +4,7 @@ import { useState } from "react";
 import { scenarios } from "@/data/scenarios";
 
 export default function Home() {
-  const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(
-    null
-  );
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
   const [currentNodeId, setCurrentNodeId] = useState<string | null>(null);
   const [isFinished, setIsFinished] = useState(false);
 
@@ -21,7 +19,6 @@ export default function Home() {
 
   function startScenario(scenarioId: string) {
     const scenario = scenarios.find((item) => item.id === scenarioId);
-
     if (!scenario) return;
 
     setSelectedScenarioId(scenario.id);
@@ -46,9 +43,9 @@ export default function Home() {
 
   if (selectedScenario && isFinished) {
     return (
-      <main className="min-h-screen bg-slate-100 p-6">
+      <main className="min-h-screen bg-gray-400 p-6">
         <div className="mx-auto max-w-md">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-gray-200 mb-2">
             フィードバック
           </h1>
 
@@ -65,19 +62,35 @@ export default function Home() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 shadow mb-6">
-            <h2 className="font-bold text-green-600 mb-2">復習フレーズ</h2>
-            <p translate="no" className="font-bold text-gray-800">
-              I’ll be looking after you until 5 PM.
-            </p>
-            <p className="text-gray-500 text-sm">
-              午後5時まで担当しますね。
-            </p>
+          <div className="space-y-4 mb-6">
+            <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-blue-500">
+              <p className="text-sm font-bold text-blue-600 mb-2">
+                今日の重要表現
+              </p>
+              <p translate="no" className="font-bold text-gray-800 text-lg">
+                I’ll be looking after you today.
+              </p>
+              <p className="text-gray-500 text-sm mt-1">
+                今日、担当しますね。
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-green-500">
+              <p className="text-sm font-bold text-green-600 mb-2">
+                別の言い方
+              </p>
+              <p translate="no" className="font-bold text-gray-800 text-lg">
+                I’ll take care of you today.
+              </p>
+              <p className="text-gray-500 text-sm mt-1">
+                今日お世話しますね。
+              </p>
+            </div>
           </div>
 
           <button
             onClick={resetLesson}
-            className="w-full bg-blue-600 text-white rounded-xl p-4 font-bold"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 font-bold transition"
           >
             シチュエーション選択に戻る
           </button>
@@ -88,13 +101,13 @@ export default function Home() {
 
   if (selectedScenario && currentNode) {
     return (
-      <main className="min-h-screen bg-slate-100 p-6">
+      <main className="min-h-screen bg-gray-400 p-6">
         <div className="mx-auto max-w-md">
-          <button onClick={resetLesson} className="mb-4 text-blue-600">
+          <button onClick={resetLesson} className="mb-4 text-sm text-gray-800S hover:text-gray-700 transition">
             ← 戻る
           </button>
 
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-gray-200 mb-2">
             {selectedScenario.title}
           </h1>
 
@@ -102,20 +115,29 @@ export default function Home() {
             患者の英語を聞いて、返答を選びましょう。
           </p>
 
-          <div className="bg-white rounded-2xl p-5 shadow mb-6">
-            <p className="text-sm text-blue-600 font-bold mb-2">
-              AI Patient
-            </p>
+          <div className="space-y-4 mb-6">
 
-            <p
-              translate="no"
-              className="text-xl font-bold text-gray-800 mb-2"
-            >
-              {currentNode.patientText}
-            </p>
+  {/* AI Patient */}
+  <div className="flex justify-start">
+    <div className="max-w-[85%] bg-white rounded-3xl rounded-tl-md p-5 shadow">
+      <p className="text-sm text-blue-600 font-bold mb-2">
+        👨‍🦳 AI Patient
+      </p>
 
-            <p className="text-gray-500">{currentNode.patientJa}</p>
-          </div>
+      <p
+        translate="no"
+        className="text-xl font-bold text-gray-800 mb-2"
+      >
+        {currentNode.patientText}
+      </p>
+
+      <p className="text-gray-500">
+        {currentNode.patientJa}
+      </p>
+    </div>
+  </div>
+
+  </div>
 
           <h2 className="text-lg font-bold text-gray-800 mb-3">
             返答を選択
@@ -126,13 +148,13 @@ export default function Home() {
               <button
                 key={choice.label}
                 onClick={() => handleChoice(choice.nextNodeId)}
-                className="w-full text-left bg-white rounded-xl p-4 shadow hover:bg-blue-50 transition"
+                className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
+                <div className="flex items-center justify-end gap-2 mb-2">
+                  <span className="text-xs text-gray-500">{choice.type}</span>
+                  <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
                     {choice.label}
                   </span>
-                  <span className="text-xs text-gray-500">{choice.type}</span>
                 </div>
 
                 <p translate="no" className="font-bold text-gray-800">
@@ -149,7 +171,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 p-6">
+    <main className="min-h-screen bg-gray-400 p-6">
       <div className="mx-auto max-w-md">
         <h1 className="text-3xl font-bold text-blue-600 mb-2">
           Nurse English App
@@ -168,19 +190,31 @@ export default function Home() {
             <button
               key={item.id}
               onClick={() => startScenario(item.id)}
-              className="w-full text-left bg-white rounded-2xl p-5 shadow hover:shadow-md transition"
+              className="w-full text-left bg-white rounded-3xl p-5 shadow-md hover:shadow-xl transition border border-slate-100"
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-bold text-gray-800">
-                  {item.title}
-                </h3>
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-4xl">
+                  {item.image}
+                </div>
 
-                <span className="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
-                  {item.level}
-                </span>
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-bold text-gray-800">
+                      {item.title}
+                    </h3>
+
+                    <span className="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
+                      {item.level}
+                    </span>
+                  </div>
+
+                  <p className="text-gray-600 text-sm">{item.description}</p>
+
+                  <p className="text-xs text-gray-400 mt-2">
+                    約3分トレーニング
+                  </p>
+                </div>
               </div>
-
-              <p className="text-gray-600 text-sm">{item.description}</p>
             </button>
           ))}
         </div>

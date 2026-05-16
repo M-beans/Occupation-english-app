@@ -4,6 +4,7 @@ export const scenarios = [
     title: "患者へのあいさつ",
     description: "担当看護師として患者に最初の声かけをする練習",
     level: "A2",
+    image: "👩‍⚕️",
     startNodeId: "T1",
     nodes: {
       T1: {
@@ -161,4 +162,333 @@ export const scenarios = [
       },
     },
   },
-];
+
+  {
+  id: "blood_sampling_a2",
+  title: "採血",
+  description: "患者に採血の説明をする練習",
+  level: "A2",
+  image: "💉",
+  startNodeId: "T1",
+  nodes: {
+    T1: {
+      nodeId: "T1",
+      patientText: "What are you going to do?",
+      patientJa: "これから何をするんですか？",
+      choices: [
+        {
+          label: "A",
+          type: "リアクション＋説明",
+          text: "Sure. I’m going to take a blood sample.",
+          ja: "はい。これから採血をします。",
+          nextNodeId: "T2A",
+        },
+        {
+          label: "B",
+          type: "リアクション＋確認",
+          text: "Of course. Are you nervous about needles?",
+          ja: "もちろんです。注射は苦手ですか？",
+          nextNodeId: "T2B",
+        },
+      ],
+    },
+
+    T2A: {
+      nodeId: "T2A",
+      patientText: "Okay. Will it hurt?",
+      patientJa: "わかりました。痛いですか？",
+      choices: [
+        {
+          label: "A",
+          type: "共感＋説明",
+          text: "I understand. You may feel a small pinch.",
+          ja: "わかります。少しチクっとするかもしれません。",
+          nextNodeId: "T3AA",
+        },
+        {
+          label: "B",
+          type: "確認＋安心",
+          text: "I see. Have you had blood tests before?",
+          ja: "そうなんですね。以前採血を受けたことはありますか？",
+          nextNodeId: "T3AB",
+        },
+      ],
+    },
+
+    T2B: {
+      nodeId: "T2B",
+      patientText: "Yes, a little.",
+      patientJa: "はい、少し苦手です。",
+      choices: [
+        {
+          label: "A",
+          type: "共感＋次の行動",
+          text: "That’s okay. I’ll try to make it quick.",
+          ja: "大丈夫ですよ。できるだけ早く終わらせますね。",
+          nextNodeId: "T3BA",
+        },
+        {
+          label: "B",
+          type: "共感＋確認",
+          text: "I understand. Would you like to sit down first?",
+          ja: "わかりました。先に座りますか？",
+          nextNodeId: "T3BB",
+        },
+      ],
+    },
+
+    T3AA: {
+      nodeId: "T3AA",
+      patientText: "Okay, thank you.",
+      patientJa: "わかりました。ありがとうございます。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋指示",
+          text: "No problem. Please relax your arm.",
+          ja: "大丈夫ですよ。腕の力を抜いてください。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "You’re welcome. Are you feeling okay?",
+          ja: "どういたしまして。気分は大丈夫ですか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3AB: {
+      nodeId: "T3AB",
+      patientText: "Yes, but I still get nervous.",
+      patientJa: "はい。でもやっぱり緊張します。",
+      choices: [
+        {
+          label: "A",
+          type: "共感＋説明",
+          text: "I understand. I’ll explain each step.",
+          ja: "わかります。一つずつ説明しますね。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "共感＋提案",
+          text: "That’s okay. Would you like to look away?",
+          ja: "大丈夫ですよ。針を見ないようにしますか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3BA: {
+      nodeId: "T3BA",
+      patientText: "Thank you. That helps.",
+      patientJa: "ありがとうございます。安心します。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋説明",
+          text: "I’m glad to hear that. We’ll be finished soon.",
+          ja: "そう言ってもらえてよかったです。もうすぐ終わります。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "No problem. Would you like some water after?",
+          ja: "大丈夫ですよ。終わった後、お水を飲みますか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3BB: {
+      nodeId: "T3BB",
+      patientText: "Yes, please.",
+      patientJa: "はい、お願いします。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋次の行動",
+          text: "Sure. I’ll begin in a moment.",
+          ja: "わかりました。それではすぐ始めますね。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "Of course. Are you comfortable now?",
+          ja: "もちろんです。今は楽な姿勢ですか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+  },
+},
+
+{
+  id: "move_to_exam_room_a2",
+  title: "病室から診察室への移動",
+  description: "患者を診察室へ案内する練習",
+  level: "A2",
+  image: "🚶‍♀️",
+  startNodeId: "T1",
+  nodes: {
+    T1: {
+      nodeId: "T1",
+      patientText: "Where are we going?",
+      patientJa: "どこへ行くんですか？",
+      choices: [
+        {
+          label: "A",
+          type: "リアクション＋説明",
+          text: "Sure. We’re going to the examination room.",
+          ja: "はい。診察室へ向かいます。",
+          nextNodeId: "T2A",
+        },
+        {
+          label: "B",
+          type: "リアクション＋確認",
+          text: "Of course. Can you walk by yourself?",
+          ja: "もちろんです。ご自身で歩けますか？",
+          nextNodeId: "T2B",
+        },
+      ],
+    },
+
+    T2A: {
+      nodeId: "T2A",
+      patientText: "Okay. Is it far from here?",
+      patientJa: "わかりました。ここから遠いですか？",
+      choices: [
+        {
+          label: "A",
+          type: "安心＋説明",
+          text: "No, not far. It’s just down the hall.",
+          ja: "いいえ、遠くありません。この廊下の先です。",
+          nextNodeId: "T3AA",
+        },
+        {
+          label: "B",
+          type: "確認＋配慮",
+          text: "It’s close. Do you feel okay to walk?",
+          ja: "近いです。歩いても大丈夫そうですか？",
+          nextNodeId: "T3AB",
+        },
+      ],
+    },
+
+    T2B: {
+      nodeId: "T2B",
+      patientText: "I can walk, but slowly.",
+      patientJa: "歩けますが、ゆっくりです。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋安心",
+          text: "That’s okay. We can go slowly.",
+          ja: "大丈夫です。ゆっくり行きましょう。",
+          nextNodeId: "T3BA",
+        },
+        {
+          label: "B",
+          type: "反応＋提案",
+          text: "I understand. Would you like a wheelchair?",
+          ja: "わかりました。車椅子を使いますか？",
+          nextNodeId: "T3BB",
+        },
+      ],
+    },
+
+    T3AA: {
+      nodeId: "T3AA",
+      patientText: "Okay, I’m ready.",
+      patientJa: "わかりました。準備できました。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋次の行動",
+          text: "Great. Please follow me.",
+          ja: "いいですね。私について来てください。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "Good. Do you need any help standing up?",
+          ja: "よかったです。立ち上がる時に手伝いが必要ですか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3AB: {
+      nodeId: "T3AB",
+      patientText: "Yes, I think I’m okay.",
+      patientJa: "はい、大丈夫だと思います。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋見守り",
+          text: "Alright. I’ll walk beside you.",
+          ja: "わかりました。横について歩きますね。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "Okay. Please tell me if you feel dizzy.",
+          ja: "わかりました。めまいがしたら教えてください。",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3BA: {
+      nodeId: "T3BA",
+      patientText: "Thank you. That makes me feel safe.",
+      patientJa: "ありがとうございます。安心します。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋次の行動",
+          text: "You’re welcome. Let’s go together.",
+          ja: "どういたしまして。一緒に行きましょう。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "No problem. Do you want to hold the rail?",
+          ja: "大丈夫ですよ。手すりにつかまりますか？",
+          nextNodeId: "END",
+        },
+      ],
+    },
+
+    T3BB: {
+      nodeId: "T3BB",
+      patientText: "No, I think I can walk.",
+      patientJa: "いいえ、歩けると思います。",
+      choices: [
+        {
+          label: "A",
+          type: "反応＋見守り",
+          text: "Okay. I’ll stay close to you.",
+          ja: "わかりました。近くについていますね。",
+          nextNodeId: "END",
+        },
+        {
+          label: "B",
+          type: "反応＋確認",
+          text: "Alright. Please let me know if you need to stop.",
+          ja: "わかりました。止まりたくなったら教えてください。",
+          nextNodeId: "END",
+        },
+      ],
+    },
+  },
+},
+ 
+]; 
