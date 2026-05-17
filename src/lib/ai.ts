@@ -5,7 +5,6 @@ export async function generateScenario(
 ) {
   const response = await fetch("/api/generate", {
     method: "POST",
-
     headers: {
       "Content-Type": "application/json",
     },
@@ -13,12 +12,21 @@ export async function generateScenario(
       profile,
       scenarioTitle,
       conversationContext,
-}),
+    }),
   });
 
   const data = await response.json();
 
-  const parsed = JSON.parse(data.message);
+  try {
+    return JSON.parse(data.message);
+  } catch (error) {
+    console.error("JSON parse error:", error);
+    console.error("AI raw message:", data.message);
 
-  return parsed;
+    return {
+      patient: "I’m sorry, could you help me?",
+      choiceA: "Of course. I’ll help you.",
+      choiceB: "Sure. What seems to be the problem?",
+    };
+  }
 }

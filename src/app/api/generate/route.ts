@@ -54,6 +54,10 @@ Requirements:
 - nurse conversation
 - choiceA = explanation style
 - choiceB = checking/question style
+- patient must speak first
+- patient is not the nurse
+- patient message must be from the patient perspective
+- do not generate nurse speech in patient
 `,
         },
       ],

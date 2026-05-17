@@ -11,6 +11,8 @@ export default function Home() {
 
   const [aiScenario, setAiScenario] = useState<any>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
   const [turnCount, setTurnCount] = useState(1);
@@ -36,7 +38,9 @@ export default function Home() {
     if (!scenario) return;
 
     setAiScenario(null);
+    setIsLoading(true);
 
+    try {
     const result = await generateScenario(profile, scenario.title);
 
     setAiScenario(result);
@@ -46,6 +50,12 @@ export default function Home() {
     setCurrentNodeId(scenario.startNodeId);
     setIsFinished(false);
     setTurnCount(1);
+  } catch (error) {
+    console.error(error);
+    alert("AI生成に失敗しました。もう一度試してください。");
+  } finally {
+    setIsLoading(false);
+  }
   }
 
   
@@ -67,21 +77,32 @@ export default function Home() {
     const previousPatient =
       aiScenario?.patient ?? currentNode.patientText;
 
-    const result = await generateScenario(
-      profile,
-      selectedScenario.title,
-      {
-        previousPatient,
-        selectedReply,
-      }
-    );
+    try {
+      setIsLoading(true);
 
-    setAiScenario(result);
+      const result = await generateScenario(
+        profile,
+        selectedScenario.title,
+        {
+          previousPatient,
+          selectedReply,
+        }
+      );
 
-    setTurnCount(turnCount + 1);
+      setAiScenario(result);
+      setTurnCount(turnCount + 1);
 
-    console.log(result);
-}
+      console.log(result);
+
+    } catch (error) {
+      console.error(error);
+
+      alert("AI生成に失敗しました。");
+
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
 
 function resetLesson() {
@@ -290,7 +311,7 @@ function resetLesson() {
         translate="no"
         className="text-xl font-bold text-gray-800 mb-2"
       >
-        {aiScenario?.patient ?? currentNode.patientText}
+        {isLoading ? "AI Patient is thinking..." : aiScenario?.patient ?? currentNode.patientText}
       </p>
 
       <p className="text-gray-500">
@@ -310,7 +331,8 @@ function resetLesson() {
               <button
                 key={choice.label}
                 onClick={() => handleChoice(choice.nextNodeId, choice.text)}
-                className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200"
+                disabled={isLoading}
+                className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center justify-end gap-2 mb-2">
                   <span className="text-xs text-gray-500">{choice.type}</span>
@@ -320,7 +342,9 @@ function resetLesson() {
                 </div>
 
                 <p translate="no" className="font-bold text-gray-800">
-                  {choice.label === "A"
+                  {isLoading
+                    ? "Generating response..."
+                    : choice.label === "A"
                     ? aiScenario?.choiceA ?? choice.text
                     : aiScenario?.choiceB ?? choice.text}
                 </p>
