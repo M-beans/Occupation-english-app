@@ -1,36 +1,222 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nurse English App
 
-## Getting Started
+## 概要
 
-First, run the development server:
+看護師向けのAI英会話トレーニングアプリ。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+単なる英文暗記ではなく、
+「患者・患者の家族の発言に対して即反応する能力」を鍛えることを目的とする。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+AIが患者役・患者の家族となり、
+ユーザーは2択形式で会話を進める。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+現在はMVP1開発中。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# このアプリの目的
 
-To learn more about Next.js, take a look at the following resources:
+一般的な英会話学習では、
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 英作文
+- 文法
+- 長文読解
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+に偏りやすい。
 
-## Deploy on Vercel
+しかし実際の現場では、
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- アウトプットを即リアクション
+- 短く自然な返答
+- 相手への確認
+- 安心感のある返答
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+が重要になる。
+
+本アプリでは、
+「瞬間的な会話反応」を重点的に鍛える。
+-職場での即応性
+-オールマイティな高額英会話アプリとの差別化
+-安価でAI英会話のエレメンタリー。誰でもここからスタート。
+-長期利用ではなく数か月期間がターゲット。
+-B to B 販売を目指す。
+
+# ターゲット
+
+## 主対象
+
+- 看護師・看護学生
+- 医療従事者
+- 日本人英語学習者
+
+## 英語レベル
+
+- A2
+- B1
+- B2
+
+---
+
+# MVP1の範囲
+
+## 実装済み
+
+- プロフィール選択
+- 診療科選択
+- 英語レベル選択
+- 会話スタイル選択
+- シチュエーション選択
+- OpenAI API接続
+- AI患者会話生成
+- 2択リアクション
+- 3ターン会話ループ
+- フィードバック画面
+- ローディング表示
+- エラー処理
+
+---
+
+# 会話構造
+
+## 基本フロー
+
+① プロフィール設定  
+② シチュエーション選択  
+③ AIが患者・患者家族発話・音声を生成  
+④ ユーザーがA/B選択  
+⑤ AIへ会話音声履歴を渡す  
+⑥ 次ターン生成  
+⑦ 3ターン後フィードバック
+
+---
+
+# AI会話設計
+
+## AIへ渡す情報
+
+- ユーザー名
+- 診療科
+- 英語レベル
+- 会話スタイル
+- シチュエーション
+- 前回患者発話
+- 選択した返答・音声
+
+---
+
+# 会話思想
+
+## Choice A
+
+説明・案内型リアクション
+
+例：
+- 状況説明・情報提供
+- 安心感を与える
+- 次の行動説明
+
+## Choice B
+
+確認・質問型リアクション
+
+例：
+- 症状確認
+- 気持ち確認
+- 詳細確認・条件選択肢提示
+
+---
+
+# UI/UX思想
+
+## 重視すること
+
+- PWAによるスマホ操作前提
+- 即反応できるUI
+- 直感的操作
+- 学習感を出しすぎない
+- 会話没入感
+
+---
+
+# 今後の予定
+
+## 近い将来
+
+- Structured Outputs対応
+- 会話履歴強化
+- AI品質改善
+- JSON Schema導入
+- 型定義整理
+- page.tsx分割
+
+## 将来的な機能
+
+- 音声入力
+- 音声読み上げ
+- 発音フィードバック
+- 復習カード
+- 会話履歴保存
+- CSV出力
+-オフライン学習用シートのフィードバック配信
+- モバイル対応強化
+
+---
+
+# 技術構成
+
+## Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Backend
+
+- Next.js API Routes
+
+## AI
+
+- OpenAI API
+
+---
+
+# 開発環境
+
+- Windows
+- VSCode
+- GitHub
+- Node.js
+
+---
+
+# 現在の課題
+
+- AI会話品質改善
+- プロンプト最適化
+- Structured Outputs化
+- コンポーネント分割
+- 状態管理整理
+
+---
+
+# 開発方針
+
+まずはMVPを高速で完成させる。
+
+その後、
+
+- UX改善
+- AI品質改善
+- 設計整理
+
+を段階的に進める。
+
+完璧な設計より、
+実際に動く会話体験を優先する。
+
+---
+
+# ライセンス
+
+TBD
