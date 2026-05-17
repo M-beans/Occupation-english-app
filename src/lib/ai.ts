@@ -1,8 +1,13 @@
+import { AiScenario, Profile } from "@/components/home/types";
+
 export async function generateScenario(
-  profile: any,
+  profile: Profile,
   scenarioTitle: string,
-  conversationContext?: any
-) {
+  conversationContext?: {
+    previousPatient: string;
+    selectedReply: string;
+  }
+): Promise<AiScenario> {
   const response = await fetch("/api/generate", {
     method: "POST",
     headers: {
