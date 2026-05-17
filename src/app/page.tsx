@@ -12,6 +12,9 @@ export default function Home() {
   const [aiScenario, setAiScenario] = useState<any>(null);
 
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+
+  const [turnCount, setTurnCount] = useState(1);
+  
   const [profile, setProfile] = useState({
     name: "Yuki",
     department: "循環器科",
@@ -27,41 +30,65 @@ export default function Home() {
       ? selectedScenario.nodes[currentNodeId as keyof typeof selectedScenario.nodes]
       : null;
 
-  function startScenario(scenarioId: string) {
+  async function startScenario(scenarioId: string) {
     const scenario = scenarios.find((item) => item.id === scenarioId);
+
     if (!scenario) return;
+
+    setAiScenario(null);
+
+    const result = await generateScenario(profile, scenario.title);
+
+    setAiScenario(result);
+    console.log(result);
 
     setSelectedScenarioId(scenario.id);
     setCurrentNodeId(scenario.startNodeId);
     setIsFinished(false);
+    setTurnCount(1);
   }
 
-  function handleChoice(nextNodeId: string) {
-    if (nextNodeId === "END") {
-      setIsFinished(true);
-      return;
-    }
-
-    setCurrentNodeId(nextNodeId);
-  }
-
-  function resetLesson() {
-    setSelectedScenarioId(null);
-    setCurrentNodeId(null);
-    setIsFinished(false);
-  }
-
-  async function testAiScenario() {
-  const result = await generateScenario();
-
-  setAiScenario(result);
-
-  console.log(result);
-  }
+  
 
   function completeSetup() {
     setIsSetupComplete(true);
   }
+
+  async function handleChoice(
+    nextNodeId: string,
+    selectedReply: string
+  ) {
+    if (!selectedScenario || !currentNode) return;
+    if (turnCount >= 3) {
+      setIsFinished(true);
+      return;
+    }
+
+    const previousPatient =
+      aiScenario?.patient ?? currentNode.patientText;
+
+    const result = await generateScenario(
+      profile,
+      selectedScenario.title,
+      {
+        previousPatient,
+        selectedReply,
+      }
+    );
+
+    setAiScenario(result);
+
+    setTurnCount(turnCount + 1);
+
+    console.log(result);
+}
+
+
+function resetLesson() {
+  setSelectedScenarioId(null);
+  setIsFinished(false);
+  setAiScenario(null);
+}
 
   if (!isSetupComplete) {
     return (
@@ -149,12 +176,7 @@ export default function Home() {
               次へ
             </button>
 
-            <button
-              onClick={testAiScenario}
-              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold transition"
-            >
-              AIテスト
-            </button>
+            
           </div>
         </div>
       </main>
@@ -268,7 +290,7 @@ export default function Home() {
         translate="no"
         className="text-xl font-bold text-gray-800 mb-2"
       >
-        {currentNode.patientText}
+        {aiScenario?.patient ?? currentNode.patientText}
       </p>
 
       <p className="text-gray-500">
@@ -287,7 +309,7 @@ export default function Home() {
             {currentNode.choices.map((choice) => (
               <button
                 key={choice.label}
-                onClick={() => handleChoice(choice.nextNodeId)}
+                onClick={() => handleChoice(choice.nextNodeId, choice.text)}
                 className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200"
               >
                 <div className="flex items-center justify-end gap-2 mb-2">
@@ -298,7 +320,9 @@ export default function Home() {
                 </div>
 
                 <p translate="no" className="font-bold text-gray-800">
-                  {choice.text}
+                  {choice.label === "A"
+                    ? aiScenario?.choiceA ?? choice.text
+                    : aiScenario?.choiceB ?? choice.text}
                 </p>
 
                 <p className="text-sm text-gray-500 mt-1">{choice.ja}</p>
@@ -320,6 +344,19 @@ export default function Home() {
         <p className="text-gray-600 mb-6">
           看護師向けAI英会話トレーニング
         </p>
+
+        <button
+          onClick={() => {
+            setIsSetupComplete(false);
+            setSelectedScenarioId(null);
+            setCurrentNodeId(null);
+            setIsFinished(false);
+            setAiScenario(null);
+          }}
+          className="mb-4 text-sm text-gray-700 hover:text-gray-900 transition"
+>
+  ← プロフィールに戻る
+</button>
 
         <h2 className="text-xl font-bold text-gray-800 mb-4">
           シチュエーションを選択
