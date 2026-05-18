@@ -6,7 +6,7 @@ export type Profile = {
 };
 
 export type AiScenario = {
-  patient?: string;
-  choiceA?: string;
-  choiceB?: string;
+  patient: string;
+  choiceA: string;
+  choiceB: string;
 };
