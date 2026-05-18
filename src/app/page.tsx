@@ -73,6 +73,8 @@ export default function Home() {
     try {
       setIsLoading(true);
 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       const result = await generateScenario(profile, selectedScenario.title, {
         previousPatient,
         selectedReply,

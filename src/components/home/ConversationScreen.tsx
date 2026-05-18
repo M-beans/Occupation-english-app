@@ -1,9 +1,9 @@
 import { scenarios } from "@/data/scenarios";
-import { AiScenario, Profile } from "./types";
+import type { AiScenario, Profile, ConversationNode } from "./types";
 
 type ConversationScreenProps = {
   selectedScenario: (typeof scenarios)[number];
-  currentNode: (typeof scenarios)[number]["nodes"][string];
+  currentNode: ConversationNode;
   profile: Profile;
   isLoading: boolean;
   aiScenario: AiScenario | null;
@@ -41,12 +41,27 @@ export function ConversationScreen({
         <div className="space-y-4 mb-6">
           <div className="flex justify-start">
             <div className="max-w-[85%] bg-white rounded-3xl rounded-tl-md p-5 shadow">
-              <p className="text-sm text-blue-600 font-bold mb-2">👨‍🦳 AI Patient</p>
-
-              <p translate="no" className="text-xl font-bold text-gray-800 mb-2">
-                {isLoading ? "AI Patient is thinking..." : aiScenario?.patient ?? currentNode.patientText}
+              <p
+                style={{ color: "red" }}
+                className="font-bold mb-2"
+              >
+                🔴 TEST AI Patient
               </p>
-
+               {isLoading ? (
+                <p
+                  translate="no"
+                  className="text-xl font-bold text-blue-300 animate-pulse mb-2"
+                >
+                   ● ● ●
+                </p>
+              ) : (
+                <p
+                  translate="no"
+                  className="text-xl font-bold text-gray-800 mb-2"
+                >
+                  {aiScenario?.patient ?? currentNode.patientText}
+                </p>
+              )} 
               <p className="text-gray-500">{currentNode.patientJa}</p>
             </div>
           </div>

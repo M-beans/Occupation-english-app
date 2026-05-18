@@ -10,3 +10,18 @@ export type AiScenario = {
   choiceA: string;
   choiceB: string;
 };
+
+export type Choice = {
+  label: string;
+  type: string;
+  text: string;
+  ja: string;
+  nextNodeId: string;
+};
+
+export type ConversationNode = {
+  nodeId: string;
+  patientText: string;
+  patientJa: string;
+  choices: Choice[];
+};
