@@ -222,6 +222,24 @@ AIが患者役・患者の家族となり、
 TBD
 
 ---
+MVP1 
+① patientJa AI生成
+② choiceA/BJa AI生成
+③ feedback JSON追加
+④ フィードバック画面表示
+
+---
+フィードバック画面の役割はその場面で何を聞き取り、何を判断して、次に何を言えばよいかの整理画面。
+AIに下記を生成させる。
+patientSentence
+listeningKeywords: 2語
+clinicalMeaning
+instantReactionPhrase
+alternativePhrase
+reviewJapanese
+
+
+---
 MVP2候補：
 - 相手役を患者または患者家族としてランダム生成
 - 相手役の感情設定を追加
