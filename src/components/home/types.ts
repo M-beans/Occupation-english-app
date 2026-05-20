@@ -12,6 +12,9 @@ export type AiScenario = {
   choiceAJa: string;
   choiceB: string;
   choiceBJa: string;
+
+  listeningKeywords: string[];
+  clinicalMeaning: string;
 };
 
 export type Choice = {

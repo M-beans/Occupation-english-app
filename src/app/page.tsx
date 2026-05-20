@@ -114,7 +114,12 @@ export default function Home() {
   }
 
   if (selectedScenario && isFinished) {
-    return <FeedbackScreen onResetLesson={resetLesson} />;
+    return (
+      <FeedbackScreen
+        onResetLesson={resetLesson}
+        aiScenario={aiScenario}
+      />
+    );
   }
 
   if (selectedScenario && currentNode) {

@@ -18,6 +18,17 @@ const scenarioJsonSchema = {
       choiceAJa: { type: "string" },
       choiceB: { type: "string" },
       choiceBJa: { type: "string" },
+
+      listeningKeywords: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      } ,
+
+      clinicalMeaning: {
+        type: "string",
+      },
     },
     required: [
       "patient",
@@ -26,6 +37,8 @@ const scenarioJsonSchema = {
       "choiceAJa",
       "choiceB",
       "choiceBJa",
+      "listeningKeywords",
+      "clinicalMeaning",
     ],
   },
 } as const;
@@ -46,7 +59,10 @@ function parseScenario(content: string | null): AiScenario | null {
       typeof scenario.choiceA !== "string" ||
       typeof scenario.choiceAJa !== "string" ||
       typeof scenario.choiceB !== "string" ||
-      typeof scenario.choiceBJa !== "string"
+      typeof scenario.choiceBJa !== "string" ||
+      !Array.isArray(scenario.listeningKeywords) ||
+      scenario.listeningKeywords.some((item) => typeof item !== "string") ||
+      typeof scenario.clinicalMeaning !== "string"
     ) {
       return null;
     }
@@ -58,6 +74,9 @@ function parseScenario(content: string | null): AiScenario | null {
       patientJa: scenario.patientJa,
       choiceAJa: scenario.choiceAJa,
       choiceBJa: scenario.choiceBJa,
+
+      listeningKeywords: scenario.listeningKeywords,
+      clinicalMeaning: scenario.clinicalMeaning,
     };
   } catch (error) {
     console.error("Structured output parse failed:", error);
@@ -111,6 +130,9 @@ Requirements:
 - patient must be a patient or patient's family member voice
 - patient must not include nurse speech
 - keep each line concise for quick mobile selection
+- listeningKeywords must contain exactly 2 important words or short phrases from the patient message
+- listeningKeywords should help nurses understand the situation quickly
+- clinicalMeaning should explain the clinical situation briefly in Japanese
 `,
         },
       ],

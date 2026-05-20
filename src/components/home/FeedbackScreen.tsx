@@ -1,8 +1,15 @@
+import type { AiScenario } from "./types";
+
 type FeedbackScreenProps = {
   onResetLesson: () => void;
+  aiScenario: AiScenario | null;
 };
 
-export function FeedbackScreen({ onResetLesson }: FeedbackScreenProps) {
+export function FeedbackScreen({ 
+  onResetLesson, 
+  aiScenario 
+}: FeedbackScreenProps) 
+{
   return (
     <main className="min-h-screen bg-gray-400 p-6">
       <div className="mx-auto max-w-md">
@@ -11,14 +18,29 @@ export function FeedbackScreen({ onResetLesson }: FeedbackScreenProps) {
         <p className="text-gray-600 mb-6">1ルーティンが完了しました。お疲れさまでした。</p>
 
         <div className="bg-white rounded-2xl p-5 shadow mb-4">
-          <h2 className="font-bold text-blue-600 mb-2">今回のポイント</h2>
+          <h2 className="font-bold text-blue-600 mb-3">
+            聞き取りキーワード
+          </h2>
 
-          <ul className="list-disc pl-5 text-gray-700 space-y-2">
-            <li>患者に安心感を与える返答ができました。</li>
-            <li>短く、やさしい英語で対応できています。</li>
-            <li>次は発音と返答スピードを確認しましょう。</li>
-          </ul>
-        </div>
+          <div className="flex gap-2 mb-3 flex-wrap">
+            {aiScenario?.listeningKeywords.map((keyword) => (
+              <span
+                key={keyword}
+                className="bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-sm font-bold"
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+
+          <h2 className="font-bold text-blue-600 mb-2">
+            現場での意味
+          </h2>
+
+          <p className="text-gray-700">
+            {aiScenario?.clinicalMeaning}
+          </p>
+        </div> 
 
         <div className="space-y-4 mb-6">
           <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-blue-500">
