@@ -7,8 +7,11 @@ export type Profile = {
 
 export type AiScenario = {
   patient: string;
+  patientJa: string;
   choiceA: string;
+  choiceAJa: string;
   choiceB: string;
+  choiceBJa: string;
 };
 
 export type Choice = {

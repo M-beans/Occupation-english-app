@@ -13,10 +13,20 @@ const scenarioJsonSchema = {
     additionalProperties: false,
     properties: {
       patient: { type: "string" },
+      patientJa: { type: "string" },
       choiceA: { type: "string" },
+      choiceAJa: { type: "string" },
       choiceB: { type: "string" },
+      choiceBJa: { type: "string" },
     },
-    required: ["patient", "choiceA", "choiceB"],
+    required: [
+      "patient",
+      "patientJa",
+      "choiceA",
+      "choiceAJa",
+      "choiceB",
+      "choiceBJa",
+    ],
   },
 } as const;
 
@@ -32,8 +42,11 @@ function parseScenario(content: string | null): AiScenario | null {
 
     if (
       typeof scenario.patient !== "string" ||
+      typeof scenario.patientJa !== "string" ||
       typeof scenario.choiceA !== "string" ||
-      typeof scenario.choiceB !== "string"
+      typeof scenario.choiceAJa !== "string" ||
+      typeof scenario.choiceB !== "string" ||
+      typeof scenario.choiceBJa !== "string"
     ) {
       return null;
     }
@@ -42,6 +55,9 @@ function parseScenario(content: string | null): AiScenario | null {
       patient: scenario.patient,
       choiceA: scenario.choiceA,
       choiceB: scenario.choiceB,
+      patientJa: scenario.patientJa,
+      choiceAJa: scenario.choiceAJa,
+      choiceBJa: scenario.choiceBJa,
     };
   } catch (error) {
     console.error("Structured output parse failed:", error);

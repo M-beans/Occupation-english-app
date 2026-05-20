@@ -23,7 +23,7 @@ export function ConversationScreen({
   return (
     <main className="min-h-screen bg-gray-400 p-6">
       <div className="mx-auto max-w-md">
-        <button onClick={onResetLesson} className="mb-4 text-sm text-gray-800S hover:text-gray-700 transition">
+        <button onClick={onResetLesson} className="mb-4 text-sm text-gray-800 hover:text-gray-700 transition">
           ← 戻る
         </button>
 
@@ -41,28 +41,37 @@ export function ConversationScreen({
         <div className="space-y-4 mb-6">
           <div className="flex justify-start">
             <div className="max-w-[85%] bg-white rounded-3xl rounded-tl-md p-5 shadow">
-              <p
-                style={{ color: "red" }}
-                className="font-bold mb-2"
-              >
-                🔴 TEST AI Patient
+              <p className="text-sm text-blue-600 font-bold mb-2">
+                👨‍🦳 AI Patient
               </p>
-               {isLoading ? (
-                <p
-                  translate="no"
-                  className="text-xl font-bold text-blue-300 animate-pulse mb-2"
-                >
-                   ● ● ●
-                </p>
+
+              {isLoading ? (
+                <>
+                  <p
+                    translate="no"
+                      className="text-xl font-bold text-blue-300 animate-pulse mb-2"
+                  >
+                    ● ● ●
+                  </p>
+
+                  <p className="text-blue-300 animate-pulse">
+                    ...
+                  </p>
+                </>
               ) : (
-                <p
-                  translate="no"
-                  className="text-xl font-bold text-gray-800 mb-2"
-                >
-                  {aiScenario?.patient ?? currentNode.patientText}
-                </p>
-              )} 
-              <p className="text-gray-500">{currentNode.patientJa}</p>
+                <>
+                  <p
+                    translate="no"
+                    className="text-xl font-bold text-gray-800 mb-2"
+                  >
+                    {aiScenario?.patient ?? currentNode.patientText}
+                  </p>
+
+                  <p className="text-gray-500">
+                    {aiScenario?.patientJa ?? currentNode.patientJa}
+                  </p>
+                </>
+                )}
             </div>
           </div>
         </div>
@@ -90,11 +99,17 @@ export function ConversationScreen({
                   : aiScenario?.choiceB ?? choice.text}
               </p>
 
-              <p className="text-sm text-gray-500 mt-1">{choice.ja}</p>
+              <p className="text-sm text-gray-500 mt-1">
+                {choice.label === "A"
+                ? aiScenario?.choiceAJa ?? choice.ja
+                : aiScenario?.choiceBJa ?? choice.ja}
+              </p>
             </button>
           ))}
         </div>
       </div>
+    
     </main>
   );
 }
+''
