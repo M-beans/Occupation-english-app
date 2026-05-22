@@ -79,37 +79,43 @@ export function ConversationScreen({
         <h2 className="text-lg font-bold text-gray-800 mb-3">返答を選択</h2>
 
         <div className="space-y-3">
-          {currentNode.choices.map((choice) => (
-            <button
-              key={choice.label}
-              onClick={() => onChoiceSelect(choice.nextNodeId, choice.text)}
-              disabled={isLoading}
-              className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <div className="flex items-center justify-end gap-2 mb-2">
-                <span className="text-xs text-gray-500">{choice.type}</span>
-                <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">{choice.label}</span>
-              </div>
+          {currentNode.choices.map((choice) => {
+            const displayedChoiceText =
+              choice.label === "A"
+                ? aiScenario?.choiceA ?? choice.text
+                : aiScenario?.choiceB ?? choice.text;
 
-              <p translate="no" className="font-bold text-gray-800">
-                {isLoading
-                  ? "Generating response..."
-                  : choice.label === "A"
-                  ? aiScenario?.choiceA ?? choice.text
-                  : aiScenario?.choiceB ?? choice.text}
-              </p>
-
-              <p className="text-sm text-gray-500 mt-1">
-                {choice.label === "A"
+            const displayedChoiceJa =
+              choice.label === "A"
                 ? aiScenario?.choiceAJa ?? choice.ja
-                : aiScenario?.choiceBJa ?? choice.ja}
-              </p>
-            </button>
-          ))}
+                : aiScenario?.choiceBJa ?? choice.ja;
+
+            return (
+              <button
+                key={choice.label}
+                onClick={() => onChoiceSelect(choice.nextNodeId, displayedChoiceText)}
+                disabled={isLoading}
+                className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <div className="flex items-center justify-end gap-2 mb-2">
+                  <span className="text-xs text-gray-500">{choice.type}</span>
+                  <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
+                    {choice.label}
+                  </span>
+                </div>
+
+                <p translate="no" className="font-bold text-gray-800">
+                  {isLoading ? "Generating response..." : displayedChoiceText}
+                </p>
+
+                <p className="text-sm text-gray-500 mt-1">
+                  {isLoading ? "生成中..." : displayedChoiceJa}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </div>
-    
     </main>
   );
 }
-''

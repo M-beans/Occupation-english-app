@@ -3,11 +3,13 @@ import type { AiScenario } from "./types";
 type FeedbackScreenProps = {
   onResetLesson: () => void;
   aiScenario: AiScenario | null;
+  firstSelectedReply: string;
 };
 
 export function FeedbackScreen({ 
   onResetLesson, 
-  aiScenario 
+  aiScenario,
+  firstSelectedReply
 }: FeedbackScreenProps) 
 {
   return (
@@ -46,7 +48,7 @@ export function FeedbackScreen({
           <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-blue-500">
             <p className="text-sm font-bold text-blue-600 mb-2">今日の重要表現</p>
             <p translate="no" className="font-bold text-gray-800 text-lg">
-              I’ll be looking after you today.
+              {firstSelectedReply || "No phrase selected."}
             </p>
             <p className="text-gray-500 text-sm mt-1">今日、担当しますね。</p>
           </div>

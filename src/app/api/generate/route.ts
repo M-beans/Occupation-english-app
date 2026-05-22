@@ -129,6 +129,12 @@ Requirements:
 - choiceB = checking/question style nurse reaction
 - patient must be a patient or patient's family member voice
 - patient must not include nurse speech
+- Do not use the user's name as the patient name.
+- The user's name is the nurse's name.
+- If a patient name is needed, use "the patient" or avoid names.
+- Continue logically from the selected nurse reply.
+- Do not contradict the selected nurse reply.
+- If the nurse told the patient to stay seated, the next patient message should respond to that instruction.
 - keep each line concise for quick mobile selection
 - listeningKeywords must contain exactly 2 important words or short phrases from the patient message
 - listeningKeywords should help nurses understand the situation quickly

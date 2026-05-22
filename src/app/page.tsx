@@ -17,12 +17,14 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [turnCount, setTurnCount] = useState(1);
-
+  const [firstSelectedReply, setFirstSelectedReply] = useState("");
+  const [selectedReplyForFeedback, setSelectedReplyForFeedback] = useState("");
   const [profile, setProfile] = useState<Profile>({
     name: "Yuki",
     department: "循環器科",
     level: "A2",
     style: "Work",
+   
   });
 
   const selectedScenario = scenarios.find((scenario) => scenario.id === selectedScenarioId);
@@ -69,6 +71,11 @@ export default function Home() {
     }
 
     const previousPatient = aiScenario?.patient ?? currentNode.patientText;
+    
+      setSelectedReplyForFeedback(selectedReply);
+    if (!firstSelectedReply) {
+      setFirstSelectedReply(selectedReply);
+}
 
     try {
       setIsLoading(true);
@@ -98,6 +105,7 @@ export default function Home() {
     setIsFinished(false);
     setAiScenario(null);
     setTurnCount(1);
+    setFirstSelectedReply("");
   }
 
   function backToProfile() {
@@ -118,6 +126,7 @@ export default function Home() {
       <FeedbackScreen
         onResetLesson={resetLesson}
         aiScenario={aiScenario}
+        firstSelectedReply={firstSelectedReply}
       />
     );
   }

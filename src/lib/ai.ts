@@ -8,8 +8,13 @@ type GenerateScenarioApiResponse = {
 
 const fallbackScenario: AiScenario = {
   patient: "I’m sorry, could you help me?",
+  patientJa: "すみません、助けていただけますか？",
   choiceA: "Of course. I’ll help you.",
+  choiceAJa: "もちろんです。お手伝いします。",
   choiceB: "Sure. What seems to be the problem?",
+  choiceBJa: "はい。何が起きているか教えてください。",
+  listeningKeywords: ["help", "problem"],
+  clinicalMeaning: "患者が支援を求めている状態です。",
 };
 
 function isAiScenario(value: unknown): value is AiScenario {
@@ -19,8 +24,14 @@ function isAiScenario(value: unknown): value is AiScenario {
 
   return (
     typeof candidate.patient === "string" &&
+    typeof candidate.patientJa === "string" &&
     typeof candidate.choiceA === "string" &&
-    typeof candidate.choiceB === "string"
+    typeof candidate.choiceAJa === "string" &&
+    typeof candidate.choiceB === "string" &&
+    typeof candidate.choiceBJa === "string" &&
+    Array.isArray(candidate.listeningKeywords) &&
+    candidate.listeningKeywords.every((item) => typeof item === "string") &&
+    typeof candidate.clinicalMeaning === "string"
   );
 }
 
