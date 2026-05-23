@@ -22,6 +22,12 @@ export default function Home() {
   const [firstSelectedReply, setFirstSelectedReply] = useState("");
   const [selectedReplyForFeedback, setSelectedReplyForFeedback] = useState("");
   const [firstSelectedReplyJa, setFirstSelectedReplyJa] = useState("");
+  const [conversationHistory, setConversationHistory] = useState<
+  {
+    role: "patient" | "nurse";
+    text: string;
+  }[]
+>([]);
   const [profile, setProfile] = useState<Profile>({
     name: "Yuki",
     department: "循環器科",
@@ -57,6 +63,13 @@ export default function Home() {
     const result = await generateScenario(profile, scenario.title);
 
     setAiScenario(result);
+    setConversationHistory([
+      {
+        role: "patient",
+        text: result.patient,
+      },
+    ]);
+
     console.log(result);
 
     setSelectedScenarioId(scenario.id);
@@ -101,10 +114,20 @@ export default function Home() {
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      const result = await generateScenario(profile, selectedScenario.title, {
-        previousPatient,
-        selectedReply,
-      });
+      const updatedHistory = [
+        ...conversationHistory,
+        {
+          role: "nurse" as const,
+          text: selectedReply,
+        },
+    ];
+      const result = await generateScenario(
+        profile,
+        selectedScenario.title,
+      {
+        conversationHistory: updatedHistory,
+      }
+      );
 
       setAiScenario(result);
       setTurnCount(turnCount + 1);
@@ -127,6 +150,7 @@ export default function Home() {
     setTurnCount(1);
     setFirstSelectedReply("");
     setFirstSelectedReplyJa("");
+    setConversationHistory([]);
   }
 
   function backToProfile() {

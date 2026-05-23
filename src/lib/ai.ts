@@ -7,6 +7,7 @@ type GenerateScenarioApiResponse = {
 };
 
 const fallbackScenario: AiScenario = {
+  patientName: "Patient",
   patient: "I’m sorry, could you help me?",
   patientJa: "すみません、助けていただけますか？",
   choiceA: "Of course. I’ll help you.",
@@ -34,18 +35,22 @@ function isAiScenario(value: unknown): value is AiScenario {
     typeof candidate.choiceBJa === "string" &&
     Array.isArray(candidate.listeningKeywords) &&
     candidate.listeningKeywords.every((item) => typeof item === "string") &&
-    typeof candidate.clinicalMeaning === "string"
+    typeof candidate.clinicalMeaning === "string" &&
+    typeof candidate.alternativePhrase === "string" &&
+    typeof candidate.alternativePhraseJa === "string"
   );
 }
 
-export async function generateScenario(
-  profile: Profile,
-  scenarioTitle: string,
-  conversationContext?: {
-    previousPatient: string;
-    selectedReply: string;
-  }
-): Promise<AiScenario> {
+  export async function generateScenario(
+    profile: Profile,
+    scenarioTitle: string,
+    conversationContext?: {
+      conversationHistory: {
+        role: "patient" | "nurse";
+        text: string;
+      }[];
+    }
+  ): Promise<AiScenario> {
   const response = await fetch("/api/generate", {
     method: "POST",
     headers: {

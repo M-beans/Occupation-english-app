@@ -18,6 +18,7 @@ const scenarioJsonSchema = {
       choiceAJa: { type: "string" },
       choiceB: { type: "string" },
       choiceBJa: { type: "string" },
+      patientName: {  type: "string",},
 
       listeningKeywords: {
         type: "array",
@@ -49,6 +50,7 @@ const scenarioJsonSchema = {
       "clinicalMeaning",
       "alternativePhrase",
       "alternativePhraseJa",
+      "patientName",
     ],
   },
 } as const;
@@ -64,6 +66,7 @@ function parseScenario(content: string | null): AiScenario | null {
     const scenario = parsed as Record<string, unknown>;
 
     if (
+      typeof scenario.patientName !== "string" ||
       typeof scenario.patient !== "string" ||
       typeof scenario.patientJa !== "string" ||
       typeof scenario.choiceA !== "string" ||
@@ -81,6 +84,7 @@ function parseScenario(content: string | null): AiScenario | null {
     }
 
     return {
+      patientName: scenario.patientName,
       patient: scenario.patient,
       choiceA: scenario.choiceA,
       choiceB: scenario.choiceB,
@@ -125,14 +129,27 @@ English level: ${profile.level}
 Style: ${profile.style}
 
 Scenario:
-Previous patient message:
-${conversationContext?.previousPatient ?? "None"}
 
-Selected nurse reply:
-${conversationContext?.selectedReply ?? "None"}
+Conversation history:
+${JSON.stringify(
+  conversationContext?.conversationHistory ?? [],
+  null,
+  2
+)}
+
+${scenarioTitle}
+
+Instruction:
 
 Instruction:
 If previous patient message and selected nurse reply exist, continue the conversation. Do not restart from the first greeting.
+- Continue naturally from the conversation history
+- Do not restart the conversation
+- Keep consistency with previous turns
+- Continue naturally from the conversation history.
+- Do not restart the conversation.
+- Do not ask again for information already covered.
+- Keep consistency with previous nurse instructions.
 
 ${scenarioTitle}
 
@@ -143,10 +160,14 @@ Requirements:
 - choiceA = explanation/guide style nurse reaction
 - choiceB = checking/question style nurse reaction
 - patient must be a patient or patient's family member voice
+- Generate a natural patient first name when appropriate
+- Use common English-speaking names
+- Do not use the nurse's name as the patient name
+- Patients and family members should introduce themselves naturally if needed, but do not force an introduction in every scenario.
+- If the nurse already knows the patient, avoid repeated self-introductions.
 - patient must not include nurse speech
 - Do not use the user's name as the patient name.
 - The user's name is the nurse's name.
-- If a patient name is needed, use "the patient" or avoid names.
 - Continue logically from the selected nurse reply.
 - Do not contradict the selected nurse reply.
 - If the nurse told the patient to stay seated, the next patient message should respond to that instruction.
@@ -159,6 +180,10 @@ Requirements:
 - alternativePhrase must not introduce a new action, new instruction, or new topic
 - alternativePhrase should be shorter and easier to say than the original choice
 - alternativePhraseJa should be a natural Japanese translation of alternativePhrase
+- Do not repeat the same question that the nurse already asked.
+- If the nurse asked about food, time, pain, or symptoms, the next patient message should answer that question.
+- The patient message should add one new detail, not ask the same thing again.
+- Do not make choiceA and choiceB ask the exact same question as the previous nurse reply.
 
 `,
         },
