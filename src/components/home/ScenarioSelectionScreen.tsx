@@ -3,9 +3,14 @@ import { scenarios } from "@/data/scenarios";
 type ScenarioSelectionScreenProps = {
   onBackToProfile: () => void;
   onStartScenario: (scenarioId: string) => void;
+  isStartingScenario: boolean;
 };
 
-export function ScenarioSelectionScreen({ onBackToProfile, onStartScenario }: ScenarioSelectionScreenProps) {
+export function ScenarioSelectionScreen({
+  onBackToProfile,
+  onStartScenario,
+  isStartingScenario,
+}: ScenarioSelectionScreenProps) {
   return (
     <main className="min-h-screen bg-gray-400 p-6">
       <div className="mx-auto max-w-md">
@@ -16,8 +21,15 @@ export function ScenarioSelectionScreen({ onBackToProfile, onStartScenario }: Sc
         <button onClick={onBackToProfile} className="mb-4 text-sm text-gray-700 hover:text-gray-900 transition">
           ← プロフィールに戻る
         </button>
+          {isStartingScenario && (
+          <div className="bg-white rounded-2xl p-4 shadow mb-4 text-sky-500 font-bold animate-pulse">
+            AI会話を準備中...
+          </div>
+      )}
 
-        <h2 className="text-xl font-bold text-gray-800 mb-4">シチュエーションを選択</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-4">
+          シチュエーションを選択
+        </h2>
 
         <div className="space-y-4">
           {scenarios.map((item) => (
@@ -25,6 +37,7 @@ export function ScenarioSelectionScreen({ onBackToProfile, onStartScenario }: Sc
               key={item.id}
               onClick={() => onStartScenario(item.id)}
               className="w-full text-left bg-white rounded-3xl p-5 shadow-md hover:shadow-xl transition border border-slate-100"
+              disabled={isStartingScenario}
             >
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-4xl">{item.image}</div>

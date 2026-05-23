@@ -222,13 +222,27 @@ AIが患者役・患者の家族となり、
 TBD
 
 ---
-MVP1 
+MVP1
 ① patientJa AI生成
 ② choiceA/BJa AI生成
 ③ feedback JSON追加
 ④ フィードバック画面表示
 
 ---
+
+現在実装済み：
+- Structured Outputs 化
+- AI patient / nurse conversation generation
+- patientJa / choiceAJa / choiceBJa AI生成
+- 3ターン会話ループ
+- ローディングUI
+- AI-generated listening keywords
+- clinicalMeaning 生成
+- 最初に選択した返答を「今日の重要表現」として表示
+- フィードバック画面による現場リアクション整理
+
+---
+
 フィードバック画面の役割はその場面で何を聞き取り、何を判断して、次に何を言えばよいかの整理画面。
 AIに下記を生成させる。
 patientSentence
@@ -237,7 +251,6 @@ clinicalMeaning
 instantReactionPhrase
 alternativePhrase
 reviewJapanese
-
 
 ---
 MVP2候補：

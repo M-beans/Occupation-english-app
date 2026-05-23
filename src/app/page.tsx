@@ -15,6 +15,7 @@ export default function Home() {
   const [isFinished, setIsFinished] = useState(false);
   const [aiScenario, setAiScenario] = useState<AiScenario | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isStartingScenario, setIsStartingScenario] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [turnCount, setTurnCount] = useState(1);
   const [firstSelectedReply, setFirstSelectedReply] = useState("");
@@ -40,6 +41,7 @@ export default function Home() {
 
     setAiScenario(null);
     setIsLoading(true);
+    setIsStartingScenario(true);
 
     try {
       const result = await generateScenario(profile, scenario.title);
@@ -96,6 +98,7 @@ export default function Home() {
       alert("AI生成に失敗しました。");
     } finally {
       setIsLoading(false);
+      setIsStartingScenario(false);
     }
   }
 
@@ -132,18 +135,24 @@ export default function Home() {
   }
 
   if (selectedScenario && currentNode) {
-    return (
-      <ConversationScreen
-        selectedScenario={selectedScenario}
-        currentNode={currentNode}
-        profile={profile}
-        isLoading={isLoading}
-        aiScenario={aiScenario}
-        onResetLesson={resetLesson}
-        onChoiceSelect={handleChoice}
-      />
-    );
-  }
+  return (
+    <ConversationScreen
+      selectedScenario={selectedScenario}
+      currentNode={currentNode}
+      profile={profile}
+      isLoading={isLoading}
+      aiScenario={aiScenario}
+      onResetLesson={resetLesson}
+      onChoiceSelect={handleChoice}
+    />
+  );
+}
 
-  return <ScenarioSelectionScreen onBackToProfile={backToProfile} onStartScenario={startScenario} />;
+  return (
+    <ScenarioSelectionScreen
+      onBackToProfile={backToProfile}
+      onStartScenario={startScenario}
+      isStartingScenario={isStartingScenario}
+    />
+  );
 }
