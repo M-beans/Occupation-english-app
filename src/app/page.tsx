@@ -21,6 +21,7 @@ export default function Home() {
   const [turnCount, setTurnCount] = useState(1);
   const [firstSelectedReply, setFirstSelectedReply] = useState("");
   const [selectedReplyForFeedback, setSelectedReplyForFeedback] = useState("");
+  const [firstSelectedReplyJa, setFirstSelectedReplyJa] = useState("");
   const [profile, setProfile] = useState<Profile>({
     name: "Yuki",
     department: "循環器科",
@@ -75,7 +76,11 @@ export default function Home() {
     setIsSetupComplete(true);
   }
 
-  async function handleChoice(nextNodeId: string, selectedReply: string) {
+  async function handleChoice(
+    nextNodeId: string,
+    selectedReply: string,
+    selectedReplyJa: string
+ ) {
     if (!selectedScenario || !currentNode) return;
 
     if (turnCount >= 3) {
@@ -88,7 +93,8 @@ export default function Home() {
       setSelectedReplyForFeedback(selectedReply);
     if (!firstSelectedReply) {
       setFirstSelectedReply(selectedReply);
-}
+      setFirstSelectedReplyJa(selectedReplyJa);
+    }
 
     try {
       setIsLoading(true);
@@ -120,6 +126,7 @@ export default function Home() {
     setAiScenario(null);
     setTurnCount(1);
     setFirstSelectedReply("");
+    setFirstSelectedReplyJa("");
   }
 
   function backToProfile() {
@@ -141,6 +148,7 @@ export default function Home() {
         onResetLesson={resetLesson}
         aiScenario={aiScenario}
         firstSelectedReply={firstSelectedReply}
+        firstSelectedReplyJa={firstSelectedReplyJa}
       />
     );
   }

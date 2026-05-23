@@ -15,6 +15,9 @@ const fallbackScenario: AiScenario = {
   choiceBJa: "はい。何が起きているか教えてください。",
   listeningKeywords: ["help", "problem"],
   clinicalMeaning: "患者が支援を求めている状態です。",
+  alternativePhrase: "I’ll take care of you today.",
+  alternativePhraseJa: "今日、担当しますね。",
+
 };
 
 function isAiScenario(value: unknown): value is AiScenario {

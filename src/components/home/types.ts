@@ -15,6 +15,9 @@ export type AiScenario = {
 
   listeningKeywords: string[];
   clinicalMeaning: string;
+
+  alternativePhrase: string;
+  alternativePhraseJa: string;
 };
 
 export type Choice = {

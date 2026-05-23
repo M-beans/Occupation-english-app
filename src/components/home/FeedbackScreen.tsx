@@ -4,12 +4,14 @@ type FeedbackScreenProps = {
   onResetLesson: () => void;
   aiScenario: AiScenario | null;
   firstSelectedReply: string;
+  firstSelectedReplyJa: string;
 };
 
 export function FeedbackScreen({ 
   onResetLesson, 
   aiScenario,
-  firstSelectedReply
+  firstSelectedReply,
+  firstSelectedReplyJa 
 }: FeedbackScreenProps) 
 {
   return (
@@ -50,14 +52,14 @@ export function FeedbackScreen({
             <p translate="no" className="font-bold text-gray-800 text-lg">
               {firstSelectedReply || "No phrase selected."}
             </p>
-            <p className="text-gray-500 text-sm mt-1">今日、担当しますね。</p>
+            <p className="text-gray-500 text-sm mt-1">{firstSelectedReplyJa || "日本語訳はありません。"}</p>
           </div>
           <div className="bg-white rounded-2xl p-5 shadow border-l-4 border-green-500">
             <p className="text-sm font-bold text-green-600 mb-2">別の言い方</p>
             <p translate="no" className="font-bold text-gray-800 text-lg">
-              I’ll take care of you today.
+              {aiScenario?.alternativePhrase}
             </p>
-            <p className="text-gray-500 text-sm mt-1">今日お世話しますね。</p>
+            <p className="text-gray-500 text-sm mt-1">{aiScenario?.alternativePhraseJa || "日本語訳はありません。"}</p>
           </div>
         </div>
 

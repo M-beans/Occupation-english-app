@@ -29,6 +29,14 @@ const scenarioJsonSchema = {
       clinicalMeaning: {
         type: "string",
       },
+
+      alternativePhrase: {
+        type: "string",
+      },
+
+      alternativePhraseJa: {
+        type: "string",
+      },
     },
     required: [
       "patient",
@@ -39,6 +47,8 @@ const scenarioJsonSchema = {
       "choiceBJa",
       "listeningKeywords",
       "clinicalMeaning",
+      "alternativePhrase",
+      "alternativePhraseJa",
     ],
   },
 } as const;
@@ -60,6 +70,9 @@ function parseScenario(content: string | null): AiScenario | null {
       typeof scenario.choiceAJa !== "string" ||
       typeof scenario.choiceB !== "string" ||
       typeof scenario.choiceBJa !== "string" ||
+      typeof scenario.alternativePhrase !== "string" ||
+      typeof scenario.alternativePhraseJa !== "string" ||
+
       !Array.isArray(scenario.listeningKeywords) ||
       scenario.listeningKeywords.some((item) => typeof item !== "string") ||
       typeof scenario.clinicalMeaning !== "string"
@@ -77,6 +90,8 @@ function parseScenario(content: string | null): AiScenario | null {
 
       listeningKeywords: scenario.listeningKeywords,
       clinicalMeaning: scenario.clinicalMeaning,
+      alternativePhrase: scenario.alternativePhrase,
+      alternativePhraseJa: scenario.alternativePhraseJa,
     };
   } catch (error) {
     console.error("Structured output parse failed:", error);
@@ -139,6 +154,12 @@ Requirements:
 - listeningKeywords must contain exactly 2 important words or short phrases from the patient message
 - listeningKeywords should help nurses understand the situation quickly
 - clinicalMeaning should explain the clinical situation briefly in Japanese
+- alternativePhrase must be a rephrased version of either choiceA or choiceB
+- alternativePhrase must keep the same meaning as the nurse reply choices
+- alternativePhrase must not introduce a new action, new instruction, or new topic
+- alternativePhrase should be shorter and easier to say than the original choice
+- alternativePhraseJa should be a natural Japanese translation of alternativePhrase
+
 `,
         },
       ],

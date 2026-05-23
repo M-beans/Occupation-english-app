@@ -8,7 +8,11 @@ type ConversationScreenProps = {
   isLoading: boolean;
   aiScenario: AiScenario | null;
   onResetLesson: () => void;
-  onChoiceSelect: (nextNodeId: string, selectedReply: string) => void;
+  onChoiceSelect: (
+    nextNodeId: string,
+    selectedReply: string,
+    selectedReplyJa: string
+  ) => void;
 };
 
 export function ConversationScreen({
@@ -93,7 +97,9 @@ export function ConversationScreen({
             return (
               <button
                 key={choice.label}
-                onClick={() => onChoiceSelect(choice.nextNodeId, displayedChoiceText)}
+                onClick={() =>
+                onChoiceSelect(choice.nextNodeId, displayedChoiceText, displayedChoiceJa)
+}
                 disabled={isLoading}
                 className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
