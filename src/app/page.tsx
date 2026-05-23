@@ -8,6 +8,7 @@ import { FeedbackScreen } from "@/components/home/FeedbackScreen";
 import { ScenarioSelectionScreen } from "@/components/home/ScenarioSelectionScreen";
 import { SetupScreen } from "@/components/home/SetupScreen";
 import { AiScenario, Profile } from "@/components/home/types";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
 
 export default function Home() {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
@@ -30,35 +31,45 @@ export default function Home() {
 
   const selectedScenario = scenarios.find((scenario) => scenario.id === selectedScenarioId);
 
+    if (isStartingScenario) {
+      return (
+        <LoadingScreen
+          scenarioTitle="AI conversation"
+        />
+      );
+    }   
+
   const currentNode =
     selectedScenario && currentNodeId
       ? selectedScenario.nodes[currentNodeId as keyof typeof selectedScenario.nodes]
       : null;
 
   async function startScenario(scenarioId: string) {
-    const scenario = scenarios.find((item) => item.id === scenarioId);
-    if (!scenario) return;
+  const scenario = scenarios.find((item) => item.id === scenarioId);
+  if (!scenario) return;
 
-    setAiScenario(null);
-    setIsLoading(true);
-    setIsStartingScenario(true);
+  setAiScenario(null);
+  setIsLoading(true);
+  setIsStartingScenario(true);
 
-    try {
-      const result = await generateScenario(profile, scenario.title);
-      setAiScenario(result);
-      console.log(result);
+  try {
+    const result = await generateScenario(profile, scenario.title);
 
-      setSelectedScenarioId(scenario.id);
-      setCurrentNodeId(scenario.startNodeId);
-      setIsFinished(false);
-      setTurnCount(1);
-    } catch (error) {
-      console.error(error);
-      alert("AI生成に失敗しました。もう一度試してください。");
-    } finally {
-      setIsLoading(false);
-    }
+    setAiScenario(result);
+    console.log(result);
+
+    setSelectedScenarioId(scenario.id);
+    setCurrentNodeId(scenario.startNodeId);
+    setIsFinished(false);
+    setTurnCount(1);
+  } catch (error) {
+    console.error(error);
+    alert("AI生成に失敗しました。もう一度試してください。");
+  } finally {
+    setIsLoading(false);
+    setIsStartingScenario(false);
   }
+}
 
   function completeSetup() {
     setIsSetupComplete(true);
