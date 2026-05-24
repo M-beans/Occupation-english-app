@@ -222,31 +222,29 @@ AIが患者役・患者の家族となり、
 TBD
 
 ---
-## 進捗 MVP1
+## MVP1 公開完了
 
-① patientJa AI生成  
-② choiceA/BJa AI生成  
-③ feedback JSON追加  
-④ フィードバック画面表示  
-⑤ conversationHistory による会話継続  
-⑥ LoadingScreen追加  
+- GitHub連携
+- Vercel Production Deploy
+- OpenAI API連携
+- スマホ動作確認
 
+公開URL:
+https://occupation-english-app.vercel.app/
 ---
 
 ## 現在実装済み
 
-- Structured Outputs 化
-- AI patient / nurse conversation generation
-- patientJa / choiceAJa / choiceBJa AI生成
-- 3ターン会話ループ
-- conversationHistory による自然会話継続
-- 患者名AI生成
-- ローディングUI
-- AI-generated listening keywords
-- clinicalMeaning 生成
-- alternativePhrase / alternativePhraseJa 生成
-- 最初に選択した返答を「今日の重要表現」として表示
-- フィードバック画面による現場リアクション整理
+- プロフィール設定
+- シチュエーション選択
+- AI患者との3ターン会話
+- patient / choice 日本語表示
+- Loading UI
+- フィードバック表示
+- listeningKeywords
+- clinicalMeaning
+- 今日の重要表現
+- 別の表現
 
 ---
 

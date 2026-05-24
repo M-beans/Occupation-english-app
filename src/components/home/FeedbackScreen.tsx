@@ -63,6 +63,15 @@ export function FeedbackScreen({
           </div>
         </div>
 
+        <a
+          href="https://forms.gle/9N5w8SHTs9tvAK4J6"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full bg-white border border-blue-300 text-blue-600 rounded-xl p-4 font-bold text-center mb-4 hover:bg-blue-50 transition"
+        >
+          β版アンケートに答える（約3分）
+        </a>
+
         <button
           onClick={onResetLesson}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 font-bold transition"
