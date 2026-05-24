@@ -72,6 +72,15 @@ export function FeedbackScreen({
           β版アンケートに答える（約3分）
         </a>
 
+        <a
+          href="https://あなたのLPのURL"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full bg-white border border-slate-300 text-slate-700 rounded-xl p-4 font-bold text-center mb-4 hover:bg-slate-50 transition"
+        >
+          公式ページに戻る
+        </a>
+        
         <button
           onClick={onResetLesson}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 font-bold transition"
