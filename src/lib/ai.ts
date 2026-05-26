@@ -41,6 +41,26 @@ function isAiScenario(value: unknown): value is AiScenario {
   );
 }
 
+  export const emotionVoiceInstructions = {
+    neutral:
+      "Speak naturally and clearly.",
+
+    anxious:
+      "Speak gently and a little nervous. Use short pauses.",
+
+    pain:
+      "Speak softly like a patient in pain. Add natural pauses.",
+
+    relieved:
+      "Speak calmly and sound relieved.",
+
+    confused:
+      "Sound unsure and slightly confused. Pause naturally.",
+
+    embarrassed:
+      "Sound a little shy and soft. A small laugh is okay."
+  };
+
   export async function generateScenario(
     profile: Profile,
     scenarioTitle: string,

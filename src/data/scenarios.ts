@@ -1,3 +1,11 @@
+type Emotion =
+  | "neutral"
+  | "anxious"
+  | "pain"
+  | "relieved"
+  | "confused"
+  | "embarrassed";
+
 export const scenarios = [
   {
     id: "nurse_greeting_a2",
@@ -9,8 +17,10 @@ export const scenarios = [
     nodes: {
       T1: {
         nodeId: "T1",
-        patientText: "Are you my nurse for today?",
+        patientText: "Oh... Are you my nurse for today?",
+        emotion: "neutral",
         patientJa: "今日、私の看護師さんですか？",
+        familyInterrupt: "She just woke up from her nap.",
         choices: [
           {
             label: "A",
@@ -32,7 +42,9 @@ export const scenarios = [
       T2A: {
         nodeId: "T2A",
         patientText: "Thank you. I’m not sure what will happen next.",
+        emotion: "neutral",
         patientJa: "ありがとうございます。次に何があるのか少し不安です。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
@@ -54,7 +66,9 @@ export const scenarios = [
       T2B: {
         nodeId: "T2B",
         patientText: "I’m worried about my test results.",
+        emotion: "anxious", 
         patientJa: "検査結果が心配です。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
@@ -76,7 +90,9 @@ export const scenarios = [
       T3AA: {
         nodeId: "T3AA",
         patientText: "Okay. That sounds fine.",
+        emotion: "neutral",
         patientJa: "わかりました。それなら大丈夫そうです。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
@@ -98,7 +114,9 @@ export const scenarios = [
       T3AB: {
         nodeId: "T3AB",
         patientText: "I’m worried because I don’t understand the schedule.",
+        emotion: "anxious",
         patientJa: "予定が分からなくて不安です。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
@@ -120,13 +138,16 @@ export const scenarios = [
       T3BA: {
         nodeId: "T3BA",
         patientText: "Thank you. I feel a little better.",
+        emotion: "relieved",
         patientJa: "ありがとうございます。少し安心しました。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
             type: "自分の情報を伝える",
             text: "I’ll come back as soon as I have more information.",
             ja: "新しい情報が分かり次第、すぐ戻りますね。",
+            familyInterrupt: "",
             nextNodeId: "END",
           },
           {
@@ -141,8 +162,10 @@ export const scenarios = [
 
       T3BB: {
         nodeId: "T3BB",
-        patientText: "The doctor said they would explain later.",
+        patientText: "Uh... The doctor said they would explain later.",
+        emotion: "confused",
         patientJa: "医師は後で説明すると言っていました。",
+        familyInterrupt: "",
         choices: [
           {
             label: "A",
@@ -173,8 +196,10 @@ export const scenarios = [
   nodes: {
     T1: {
       nodeId: "T1",
-      patientText: "What are you going to do?",
+      patientText: "Uh... What are you going to do?",
+      emotion: "neutral",
       patientJa: "これから何をするんですか？",
+      familyInterrupt: "So she can prepare herself for the procedure.",
       choices: [
         {
           label: "A",
@@ -195,8 +220,10 @@ export const scenarios = [
 
     T2A: {
       nodeId: "T2A",
-      patientText: "Okay. Will it hurt?",
-      patientJa: "わかりました。痛いですか？",
+      patientText: "Okay... Will it hurt? Sorry, I mean,how long will it take?",
+      emotion: "neutral",
+      patientJa: "わかりました。痛いですか？あ、間違えた、時間かかりますか？",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -217,8 +244,10 @@ export const scenarios = [
 
     T2B: {
       nodeId: "T2B",
-      patientText: "Yes, a little.",
+      patientText: "Yes, a little...No! I'm NOT good at shots!",
+      emotion: "anxious",
       patientJa: "はい、少し苦手です。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -240,7 +269,9 @@ export const scenarios = [
     T3AA: {
       nodeId: "T3AA",
       patientText: "Okay, thank you.",
+      emotion: "neutral",
       patientJa: "わかりました。ありがとうございます。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -261,8 +292,10 @@ export const scenarios = [
 
     T3AB: {
       nodeId: "T3AB",
-      patientText: "Yes, but I still get nervous.",
+      patientText: "Oh...Yes, but I still get nervous.",
+      emotion: "anxious",
       patientJa: "はい。でもやっぱり緊張します。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -284,7 +317,9 @@ export const scenarios = [
     T3BA: {
       nodeId: "T3BA",
       patientText: "Thank you. That helps.",
+      emotion: "relieved",
       patientJa: "ありがとうございます。安心します。",
+      familyInterrupt: "That’s good to hear. Haha,She seems more relaxed now.",
       choices: [
         {
           label: "A",
@@ -305,8 +340,10 @@ export const scenarios = [
 
     T3BB: {
       nodeId: "T3BB",
-      patientText: "Yes, please.",
-      patientJa: "はい、お願いします。",
+      patientText: "Yes, please.No, actually, I don't need any.",
+      emotion: "confused",
+      patientJa: "はい、お願いします。いえ、やっぱり要りません。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -337,8 +374,10 @@ export const scenarios = [
   nodes: {
     T1: {
       nodeId: "T1",
-      patientText: "Where are we going?",
+      patientText: "Uh... Where are we going?",
+      emotion: "neutral",
       patientJa: "どこへ行くんですか？",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -360,7 +399,9 @@ export const scenarios = [
     T2A: {
       nodeId: "T2A",
       patientText: "Okay. Is it far from here?",
+      emotion: "neutral",
       patientJa: "わかりました。ここから遠いですか？",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -382,7 +423,9 @@ export const scenarios = [
     T2B: {
       nodeId: "T2B",
       patientText: "I can walk, but slowly.",
+      emotion: "anxious",
       patientJa: "歩けますが、ゆっくりです。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -403,8 +446,10 @@ export const scenarios = [
 
     T3AA: {
       nodeId: "T3AA",
-      patientText: "Okay, I’m ready.",
-      patientJa: "わかりました。準備できました。",
+      patientText: "Uh... I got it. No, wait a moment. Okay, I'm ready.",
+      emotion: "neutral",
+      patientJa: "うーん、わかりました。ちょっと待ってください。わかった、準備できました。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -425,8 +470,10 @@ export const scenarios = [
 
     T3AB: {
       nodeId: "T3AB",
-      patientText: "Yes, I think I’m okay.",
+      patientText: "Yes, Haha,I think I’m okay.",
+      emotion: "confused",
       patientJa: "はい、大丈夫だと思います。",
+      familyInterrupt: "",
       choices: [
         {
           label: "A",
@@ -448,7 +495,9 @@ export const scenarios = [
     T3BA: {
       nodeId: "T3BA",
       patientText: "Thank you. That makes me feel safe.",
+      emotion: "relieved",
       patientJa: "ありがとうございます。安心します。",
+      familyInterrupt: "She’s still a little nervous about walking.",
       choices: [
         {
           label: "A",
@@ -470,7 +519,9 @@ export const scenarios = [
     T3BB: {
       nodeId: "T3BB",
       patientText: "No, I think I can walk.",
+      emotion: "confused",
       patientJa: "いいえ、歩けると思います。",
+      familyInterrupt: "She wants to try walking on her own.",
       choices: [
         {
           label: "A",
@@ -490,5 +541,4 @@ export const scenarios = [
     },
   },
 },
- 
 ]; 

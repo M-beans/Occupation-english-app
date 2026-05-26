@@ -1,5 +1,6 @@
 import { scenarios } from "@/data/scenarios";
 import type { AiScenario, Profile, ConversationNode } from "./types";
+import { useState } from "react";
 
 type ConversationScreenProps = {
   selectedScenario: (typeof scenarios)[number];
@@ -24,6 +25,17 @@ export function ConversationScreen({
   onResetLesson,
   onChoiceSelect,
 }: ConversationScreenProps) {
+  function speakPatient(text: string) {
+    const utterance =
+      new SpeechSynthesisUtterance(text);
+
+    utterance.lang = "en-US";
+    utterance.rate = 0.95;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }
+
   return (
     <main className="min-h-screen bg-gray-400 p-6">
       <div className="mx-auto max-w-md">
@@ -70,6 +82,17 @@ export function ConversationScreen({
                   >
                     {aiScenario?.patient ?? currentNode.patientText}
                   </p>
+                  <button
+                    onClick={() =>
+                      speakPatient(
+                        aiScenario?.patient ??
+                        currentNode.patientText
+                      )
+                    }
+                    className="mt-3 rounded-xl bg-blue-500 px-4 py-2 text-white text-sm"
+                  >
+                    🔊 患者の声を聞く
+                  </button>
 
                   <p className="text-gray-500">
                     {aiScenario?.patientJa ?? currentNode.patientJa}
