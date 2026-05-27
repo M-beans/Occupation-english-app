@@ -29,9 +29,27 @@ export type Choice = {
   nextNodeId: string;
 };
 
+export type Emotion =
+  | "neutral"
+  | "anxious"
+  | "pain"
+  | "relieved"
+  | "confused"
+  | "embarrassed";
+
+export type ConversationChoice = {
+  label: "A" | "B";
+  type: string;
+  text: string;
+  ja: string;
+  nextNodeId: string;
+};
+
 export type ConversationNode = {
   nodeId: string;
   patientText: string;
+  emotion: Emotion;
   patientJa: string;
-  choices: Choice[];
+  familyInterrupt: string;
+  choices: ConversationChoice[];
 };

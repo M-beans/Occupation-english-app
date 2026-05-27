@@ -25,15 +25,45 @@ export function ConversationScreen({
   onResetLesson,
   onChoiceSelect,
 }: ConversationScreenProps) {
-  function speakPatient(text: string) {
-    const utterance =
-      new SpeechSynthesisUtterance(text);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-    utterance.lang = "en-US";
-    utterance.rate = 0.95;
+  async function speakPatient(text: string, emotion: string = "neutral") {
+    if (isSpeaking) return;
 
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+    try {
+      setIsSpeaking(true);
+
+      const response = await fetch("/api/tts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text, emotion }),
+      });
+
+      if (!response.ok) {
+        throw new Error("TTS failed");
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+
+      audio.onended = () => {
+        setIsSpeaking(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      audio.onerror = () => {
+        setIsSpeaking(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      audio.play();
+    } catch (error) {
+      console.error(error);
+      setIsSpeaking(false);
+    }
   }
 
   return (
@@ -84,14 +114,15 @@ export function ConversationScreen({
                   </p>
                   <button
                     onClick={() =>
-                      speakPatient(
-                        aiScenario?.patient ??
-                        currentNode.patientText
-                      )
-                    }
-                    className="mt-3 rounded-xl bg-blue-500 px-4 py-2 text-white text-sm"
+                    speakPatient(
+                      aiScenario?.patient ?? currentNode.patientText,
+                      currentNode.emotion
+                    )
+                  }
+                    disabled={isLoading || isSpeaking}
+                    className="mt-3 rounded-xl bg-blue-500 px-4 py-2 text-white text-sm disabled:opacity-50"
                   >
-                    🔊 患者の声を聞く
+                    {isSpeaking ? "再生中..." : "🔊 患者の声を聞く"}
                   </button>
 
                   <p className="text-gray-500">
@@ -118,33 +149,37 @@ export function ConversationScreen({
                 : aiScenario?.choiceBJa ?? choice.ja;
 
             return (
-              <button
-                key={choice.label}
-                onClick={() =>
-                onChoiceSelect(choice.nextNodeId, displayedChoiceText, displayedChoiceJa)
-}
-                disabled={isLoading}
-                className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <div className="flex items-center justify-end gap-2 mb-2">
-                  <span className="text-xs text-gray-500">{choice.type}</span>
-                  <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
-                    {choice.label}
-                  </span>
-                </div>
+            <button
+              key={choice.label}
+              onClick={() =>
+                onChoiceSelect(
+                  choice.nextNodeId,
+                    displayedChoiceText,
+                    displayedChoiceJa
+                 )
+              }
+              disabled={isLoading}
+              className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <div className="flex items-center justify-end gap-2 mb-2">
+                <span className="text-xs text-gray-500">{choice.type}</span>
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
+                  {choice.label}
+                </span>
+              </div>
 
-                <p translate="no" className="font-bold text-gray-800">
-                  {isLoading ? "Generating response..." : displayedChoiceText}
-                </p>
+              <p translate="no" className="font-bold text-gray-800">
+                {isLoading ? "Generating response..." : displayedChoiceText}
+              </p>
 
-                <p className="text-sm text-gray-500 mt-1">
-                  {isLoading ? "生成中..." : displayedChoiceJa}
-                </p>
-              </button>
+              <p className="text-sm text-gray-500 mt-1">
+                {isLoading ? "生成中..." : displayedChoiceJa}
+              </p>
+            </button>
             );
           })}
         </div>
       </div>
     </main>
   );
-}
+  }

@@ -117,20 +117,42 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You are an AI for a nurse English conversation app. Generate only patient/family lines for patient. choiceA must be nurse explanation/guidance. choiceB must be nurse checking/question.",
+            `You are an AI for a nurse English conversation app.
+              Generate natural patient or family speech for a hospital situation.
+            The patient line should NOT sound like a textbook sentence.
+            Use natural spoken English with mild emotion.
+
+            Include 1 or 2 of the following when appropriate:
+            - Uh...
+            - Oh...
+            - Ah...
+            - short pauses (...)
+            - slight self-correction
+            - small laugh like "haha" only when natural
+
+            The emotion should match the situation:
+            - anxious
+            - pain
+            - confused
+            - relieved
+            - embarrassed
+
+            Do not overuse fillers.
+            choiceA must be nurse explanation/guidance.
+            choiceB must be nurse checking/question.`  
         },
         {
           role: "user",
           content: `
-User profile:
-Name: ${profile.name}
-Department: ${profile.department}
-English level: ${profile.level}
-Style: ${profile.style}
+            User profile:
+            Name: ${profile.name}
+            Department: ${profile.department}
+            English level: ${profile.level}
+            Style: ${profile.style}
 
-Scenario:
+            Scenario:
 
-Conversation history:
+            Conversation history:
 ${JSON.stringify(
   conversationContext?.conversationHistory ?? [],
   null,
