@@ -26,6 +26,8 @@ export function ConversationScreen({
   onChoiceSelect,
 }: ConversationScreenProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [showEnglish, setShowEnglish] = useState(false);
+  const [showJapanese, setShowJapanese] = useState(false);
 
   async function speakPatient(text: string, emotion: string = "neutral") {
     if (isSpeaking) return;
@@ -91,6 +93,37 @@ export function ConversationScreen({
                 👨‍🦳 AI Patient
               </p>
 
+            <div className="flex items-center gap-2 mt-3 mb-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() =>
+                  speakPatient(
+                    aiScenario?.patient ?? currentNode.patientText,
+                    currentNode.emotion
+                  )
+                }
+                disabled={isLoading || isSpeaking}
+                className="rounded-xl bg-blue-500 px-4 py-2 text-white text-sm disabled:opacity-50"
+              >
+                {isSpeaking ? "再生中..." : "🔊 Listen"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowEnglish(!showEnglish)}
+                className="rounded-full bg-sky-100 px-2 py-1 text-xs text-gray-700"
+              >
+                {showEnglish ? "🙈 English" : "👁 English"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowJapanese(!showJapanese)}
+                className="rounded-full bg-sky-100 px-2 py-1 text-xs text-gray-700"
+              >
+                {showJapanese ? "🙈 日本語" : "👁 日本語"}
+              </button>
+            </div>
               {isLoading ? (
                 <>
                   <p
@@ -106,30 +139,21 @@ export function ConversationScreen({
                 </>
               ) : (
                 <>
-                  <p
-                    translate="no"
-                    className="text-xl font-bold text-gray-800 mb-2"
-                  >
-                    {aiScenario?.patient ?? currentNode.patientText}
-                  </p>
-                  <button
-                    onClick={() =>
-                    speakPatient(
-                      aiScenario?.patient ?? currentNode.patientText,
-                      currentNode.emotion
-                    )
-                  }
-                    disabled={isLoading || isSpeaking}
-                    className="mt-3 rounded-xl bg-blue-500 px-4 py-2 text-white text-sm disabled:opacity-50"
-                  >
-                    {isSpeaking ? "再生中..." : "🔊 患者の声を聞く"}
-                  </button>
-
-                  <p className="text-gray-500">
-                    {aiScenario?.patientJa ?? currentNode.patientJa}
-                  </p>
+                  {showEnglish && (
+                    <p
+                      translate="no"
+                      className="text-xl font-bold text-gray-800 mb-2"
+                    >
+                      {aiScenario?.patient ?? currentNode.patientText}
+                    </p>
+                  )}
+                  {showJapanese && (
+                    <p className="text-gray-500">
+                      {aiScenario?.patientJa ?? currentNode.patientJa}
+                    </p>
+                  )}
                 </>
-                )}
+              )}                
             </div>
           </div>
         </div>
@@ -154,9 +178,9 @@ export function ConversationScreen({
               onClick={() =>
                 onChoiceSelect(
                   choice.nextNodeId,
-                    displayedChoiceText,
-                    displayedChoiceJa
-                 )
+                  displayedChoiceText,
+                  displayedChoiceJa
+                )
               }
               disabled={isLoading}
               className="ml-10 w-[90%] text-left bg-sky-100 rounded-3xl rounded-tr-md p-5 shadow hover:bg-sky-200 transition border border-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -164,18 +188,19 @@ export function ConversationScreen({
               <div className="flex items-center justify-end gap-2 mb-2">
                 <span className="text-xs text-gray-500">{choice.type}</span>
                 <span className="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
-                  {choice.label}
-                </span>
-              </div>
+                {choice.label}
+              </span>
+            </div>
 
-              <p translate="no" className="font-bold text-gray-800">
-                {isLoading ? "Generating response..." : displayedChoiceText}
-              </p>
+            <p translate="no" className="font-bold text-gray-800">
+              {isLoading ? "Generating response..." : displayedChoiceText}
+            </p>
 
-              <p className="text-sm text-gray-500 mt-1">
-                {isLoading ? "生成中..." : displayedChoiceJa}
-              </p>
-            </button>
+            <p className="text-sm text-gray-500 mt-1">
+              {isLoading ? "生成中..." : displayedChoiceJa}
+            </p>
+          </button>
+            
             );
           })}
         </div>
