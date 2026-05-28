@@ -44,12 +44,11 @@ export type ConversationChoice = {
   ja: string;
   nextNodeId: string;
 };
-
 export type ConversationNode = {
   nodeId: string;
   patientText: string;
-  emotion: Emotion;
   patientJa: string;
+  emotion: Emotion;
   familyInterrupt: string;
   choices: ConversationChoice[];
 };
