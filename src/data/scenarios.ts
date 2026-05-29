@@ -18,7 +18,7 @@ export const scenarios = [
       T1: {
         nodeId: "T1",
         patientText: "Oh... Are you my nurse for today?",
-        emotion: "neutral",
+        emotion: "neutral" ,
         patientJa: "今日、私の看護師さんですか？",
         familyInterrupt: "She just woke up from her nap.",
         choices: [
@@ -66,7 +66,7 @@ export const scenarios = [
       T2B: {
         nodeId: "T2B",
         patientText: "I’m worried about my test results.",
-        emotion: "anxious", 
+        emotion: "anxious",
         patientJa: "検査結果が心配です。",
         familyInterrupt: "",
         choices: [
