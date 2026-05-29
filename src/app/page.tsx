@@ -7,8 +7,8 @@ import { ConversationScreen } from "@/components/home/ConversationScreen";
 import { FeedbackScreen } from "@/components/home/FeedbackScreen";
 import { ScenarioSelectionScreen } from "@/components/home/ScenarioSelectionScreen";
 import { SetupScreen } from "@/components/home/SetupScreen";
-import { AiScenario, Profile } from "@/components/home/types";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import type { AiScenario, Profile, ConversationNode } from "@/components/home/types";
 
 export default function Home() {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
@@ -46,10 +46,12 @@ export default function Home() {
       );
     }   
 
-  const currentNode =
-    selectedScenario && currentNodeId
-      ? selectedScenario.nodes[currentNodeId as keyof typeof selectedScenario.nodes]
-      : null;
+  const currentNode: ConversationNode | null =
+  selectedScenario && currentNodeId
+    ? (
+        selectedScenario.nodes as unknown as Record<string, ConversationNode>
+      )[currentNodeId] ?? null
+    : null;
 
   async function startScenario(scenarioId: string) {
   const scenario = scenarios.find((item) => item.id === scenarioId);
