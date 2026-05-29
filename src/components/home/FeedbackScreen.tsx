@@ -73,11 +73,11 @@ export function FeedbackScreen({
         </a>
 
         <a
-          href="https://あなたのLPのURL"
+          href="https://v0-ai-khaki-alpha.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-white border border-slate-300 text-slate-700 rounded-xl p-4 font-bold text-center mb-4 hover:bg-slate-50 transition"
-        >
+          className="block w-full bg-white text-gray-800 rounded-xl p-4 font-bold text-center mb-4 hover:bg-gray-50 transition"
+>
           公式ページに戻る
         </a>
         
